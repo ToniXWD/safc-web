@@ -1,0 +1,263 @@
+<html lang="en">
+<!-- SAFC web demo
+     this page's source code fork from https://gitee.com/wdwdwd123/RateMySupervisor
+     想爬数据外也可以直接问我要
+-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>SAFC - 查看导师评价</title>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="text-center">
+        <h1>🏛️</h1>
+        <h1>SAFC - Web</h1>
+        <p>
+            <i>元平台、分布式——不只是评价导师</i><br />
+            <!-- <a href="https://t.me/SAFC_bot"><del>Telegram 机器人</del></a> | -->
+            Web（本站） |
+            <a href="https://t.me/SAFC_bak_bot">Telegram 机器人</a> |
+            <a href="https://t.me/SAFC_group">群组社区</a> |
+            <a href="https://github.com/framist/SAFC-bot"> GitHub</a> <br />
+        </p>
+    </div>
+
+    
+    <div class="container mt-3">
+        <div class="comments-info mb-3">
+            <div class="row">
+                <div class="col align-self-start" id="db-status">
+                    连接数据库中 ……
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="schoolcateSelector">校别</label>
+                    </div>
+                    <select class="custom-select" id="schoolcateSelector">
+                        <option selected>学校类别</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col col-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="universitySelector">学校</label>
+                    </div>
+                    <select class="custom-select" id="universitySelector">
+                        <option selected>所在学校</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="departmentSelector">院系</label>
+                    </div>
+                    <select class="custom-select" id="departmentSelector">
+                        <option selected>所在院系</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col col-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="supervisorSelector">导师</label>
+                    </div>
+                    <select class="custom-select" id="supervisorSelector">
+                        <option selected>姓名</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="comments-info mb-3">
+            <div class="row">
+                <div class="col align-self-start" id="comments-num">
+                    检索到 0 条评论
+                </div>
+            </div>
+        </div>
+        <div class="descriptions">
+        </div>
+    </div>
+
+    <div class="text-center">
+        <!-- <i>this page's source code fork from <a href="https://gitee.com/wdwdwd123/RateMySupervisor">RateMySupervisor</a>
+        </i> <br> -->
+        <i>web 端现只提供基本的查看功能，数据约滞后一日<br /> 
+            增加导师、增加评价、查看与增加嵌套评价等更多功能请使用 <a href="https://t.me/SAFC_bak_bot"> bot </a>！</i> <br />
+            <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fframist.github.io%2Fsafc%2F&count_bg=%23E83E8C&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=views&edge_flat=true" alt="SAFC views" title="SAFC views"/></a>
+            <!-- <a href="https://camo.githubusercontent.com/1cfacb2c46a560826cd15d4cc5b054e3ba121794b993b1932fa65ea9b4acc94c/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f6672616d6973742f534146432d626f743f7374796c653d666c61742d737175617265"><img src="https://camo.githubusercontent.com/1cfacb2c46a560826cd15d4cc5b054e3ba121794b993b1932fa65ea9b4acc94c/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f6672616d6973742f534146432d626f743f7374796c653d666c61742d737175617265" alt="GitHub" data-canonical-src="https://img.shields.io/github/license/framist/SAFC-bot?style=flat-square"></a>
+            <a href="https://github.com/framist/SAFC-bot/actions"><img src="https://camo.githubusercontent.com/51b0ba8a6b6e3922adb28a2ab510f4037f68ec0bb5ebf462986d7568d0823a83/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f616374696f6e732f776f726b666c6f772f7374617475732f6672616d6973742f534146432d626f742f63692e796d6c3f6272616e63683d6d61696e267374796c653d666c61742d737175617265" alt="Build Status" data-canonical-src="https://img.shields.io/github/actions/workflow/status/framist/SAFC-bot/ci.yml?branch=main&amp;style=flat-square"></a>
+            <a href="https://github.com/framist/SAFC-bot/graphs/commit-activity"><img src="https://camo.githubusercontent.com/8809cb0b6e978c8e6e68c3c9ff779cfa65a5529d5a1ada018b9781be990c8e93/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f636f6d6d69742d61637469766974792f6d2f6672616d6973742f534146432d626f743f7374796c653d666c61742d737175617265" alt="GitHub commit activity" data-canonical-src="https://img.shields.io/github/commit-activity/m/framist/SAFC-bot?style=flat-square"></a>
+            <a href="https://github.com/framist/SAFC-bot/graphs/contributors"><img src="https://camo.githubusercontent.com/d243addad9d4c23504626fde37686a31de54cb1bd73e4384f5db233153dd6389/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f636f6e7472696275746f72732f6672616d6973742f534146432d626f743f7374796c653d666c61742d737175617265" alt="GitHub contributors" data-canonical-src="https://img.shields.io/github/contributors/framist/SAFC-bot?style=flat-square"></a>
+            <a href="https://camo.githubusercontent.com/ba4c3e3db6ee99ce5ef99bbbead6d5d7b940d93970243fb217034996ea44cd49/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f73746172732f6672616d6973742f534146432d626f743f7374796c653d666c61742d737175617265"><img src="https://camo.githubusercontent.com/ba4c3e3db6ee99ce5ef99bbbead6d5d7b940d93970243fb217034996ea44cd49/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f73746172732f6672616d6973742f534146432d626f743f7374796c653d666c61742d737175617265" alt="GitHub Repo stars" data-canonical-src="https://img.shields.io/github/stars/framist/SAFC-bot?style=flat-square"></a> -->
+        <!-- <a href="https://github.com/framist/SAFC-bot">SAFC</a> - 社群，保护，开放 -->
+    </div>
+
+    <script>
+        function setSelectOptions(selector, options) {
+            selector.empty();
+            options.forEach(function (value, i) {
+                var option = new Option(value, i);
+                selector.append($(option));
+            });
+        }
+
+        function show_comments() {
+            commentsNumDiv.empty();
+            commentsNumDiv.append(`检索到 ${counts} 条评论`);
+            contentDiv.empty();
+            currentCm.forEach(function (value, i) {
+                var desc = value['description'].replace(/\n/g, "<br>");
+                var card = $(`<div title="评论的回复请使用 tg bot 查看" class="card mb-3">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            ${i + 1} > ${value['comment_type']} > <b>${currentSp}</b> > ${value['date']}
+                        </div>
+                        <div class="col" style="text-align: right;">
+                            <small class="text-muted">
+                                <code>${value['object']}</code>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                    <div class="card-body">
+                        <small class="text-muted">
+                            <div style="display: flex; justify-content: space-between;">
+                                <p title="这是鼠标提示的文本" class="card-title">
+                                    来自 ${value['source_cate']} 的评价
+                                </p>
+                                <p class="card-text"><code>${value['id']}</code></p>
+                            </div>
+                        </small>
+                        <!-- todo 增加来源说明的链接 <a href="https://github.com/framist/SAFC-bot/blob/main/script/crawlers/README.md">数据来源说明</a> -  -->
+                        <p class="card-text">${desc}</p>
+                        <div class="nest-descriptions">
+                            <!-- todo 先直接在后端返回纯文本的结构得了 -->
+                        </div>
+
+                    </div>
+                </div >`);
+                if (currentUn == '西安电子科技大学') {
+                    // 你懂的
+                    card = $(`<div class="card mb-3">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <b> 不予显示 </b>
+                                </div>
+                            </div>
+                        </div>`);
+                }
+                contentDiv.append($(card));
+            })
+        }
+
+        //Selectors
+        var schoolcate_sel = $('#schoolcateSelector');
+        var university_sel = $('#universitySelector');
+        var department_sel = $('#departmentSelector');
+        var supervisor_sel = $('#supervisorSelector');
+        //Buttons and Divs
+        var contentDiv = $('.descriptions');
+        var commentsNumDiv = $('#comments-num');
+        var statusDiv = $('#db-status');
+        //Initialize selection conditions
+        var schoolcates = new Array();
+        var universities = new Array();
+        var departments = new Array();
+        var supervisors = new Array();
+        var currentCt = '';
+        var currentUn = '';
+        var currentDp = '';
+        var currentSp = '';
+        var currentCm = new Array();
+
+        const API_URL = "http://127.0.0.1:11096/api/query";
+
+        $.get("http://127.0.0.1:11096/api", (d) => {
+            statusDiv.empty();
+            statusDiv.append(`${d}`);
+        }).fail(() => {
+            statusDiv.empty();
+            statusDiv.append(`😢 可能后端服务器出故障了 🐎 速速拷打<a href="https://t.me/SAFC_admin">管理员</a>`);
+        });
+
+        $.get(API_URL, (d) => {
+            schoolcates = d;
+            setSelectOptions(schoolcate_sel, schoolcates);
+            schoolcate_sel.trigger('change');
+        });            
+
+        //Selector change 
+
+        schoolcate_sel.change(() => {
+            currentCt = schoolcates[schoolcate_sel.val()];
+            $.get(API_URL, { school_cate: currentCt }, (d) => {
+                universities = d;
+                setSelectOptions(university_sel, universities);
+                university_sel.trigger('change');
+            });
+        });
+
+        university_sel.change(() => {
+            currentUn = universities[university_sel.val()];
+            $.get(API_URL,
+                { school_cate: currentCt, university: currentUn },
+                (d) => {
+                    departments = d;
+                    setSelectOptions(department_sel, departments);
+                    department_sel.trigger('change');
+                }
+            );
+        });
+
+        department_sel.change(() => {
+            currentDp = departments[department_sel.val()];
+            $.get(API_URL,
+                { school_cate: currentCt, university: currentUn, department: currentDp },
+                (d) => {
+                    supervisors = d;
+                    setSelectOptions(supervisor_sel, supervisors);
+                    supervisor_sel.trigger('change');
+                }
+            );
+        })
+        supervisor_sel.change(() => {
+            currentSp = supervisors[supervisor_sel.val()];
+            $.get(API_URL,
+                {
+                    school_cate: currentCt,
+                    university: currentUn,
+                    department: currentDp,
+                    supervisor: currentSp,
+                },
+                (d) => {
+                    currentCm = d;
+                    counts = currentCm.length;
+                    show_comments();
+                }
+            );
+        })
+    </script>
+</body>
+
+
+</html>

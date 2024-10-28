@@ -5,6 +5,7 @@ import { api } from '@/services/api';
 import SelectionForm from '@/components/SelectionForm';
 import CommentList from '@/components/CommentList';
 import { Comment } from '@/types';
+import { DownloadButton } from '@/components/DownloadButton';
 
 export default function Home() {
     const [dbStatus, setDbStatus] = useState<string>('连接数据库中...');
@@ -28,11 +29,12 @@ export default function Home() {
                     <a href="https://github.com/framist/SAFC-bot" className="text-blue-500 hover:underline">GitHub</a>
                 </div>
             </div>
-
-            <div className="mb-4 text-gray-600">{dbStatus}</div>
+            
+            <div className="w-full max-w-4xl mx-auto flex justify-center mb-6">
+                <DownloadButton />
+            </div>
 
             <SelectionForm onCommentsUpdate={setComments} />
-
             <CommentList comments={comments} />
         </main>
     );

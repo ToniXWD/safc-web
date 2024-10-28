@@ -1,6 +1,7 @@
+export const API_BASE = 'http://127.0.0.1:11096/api';
+
 import { ApiQuery, Comment } from '@/types';
 
-const API_BASE = 'http://127.0.0.1:11096/api';
 
 export const api = {
     getStatus: async () => {

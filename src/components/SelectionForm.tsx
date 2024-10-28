@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { api } from '@/services/api';
 import { Comment } from '@/types';
+import { SelectField } from './SelectField';
+import { log } from 'console';
 
 interface SelectionFormProps {
     onCommentsUpdate: (comments: Comment[]) => void;
@@ -95,6 +97,8 @@ export default function SelectionForm({ onCommentsUpdate }: SelectionFormProps) 
                 department: selectedDepartment,
                 supervisor: selectedSupervisor
             }).then(response => {
+                console.log(response);
+
                 onCommentsUpdate(response);
             });
         }
@@ -103,76 +107,40 @@ export default function SelectionForm({ onCommentsUpdate }: SelectionFormProps) 
     return (
         <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* 校别选择器 */}
-                <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        校别
-                    </label>
-                    <select
-                        className="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                        value={selectedSchoolCate}
-                        onChange={(e) => setSelectedSchoolCate(e.target.value)}
-                    >
-                        <option value="">请选择校别</option>
-                        {schoolCates.map(cate => (
-                            <option key={cate} value={cate}>{cate}</option>
-                        ))}
-                    </select>
-                </div>
+                <SelectField
+                    label="校别"
+                    value={selectedSchoolCate}
+                    onChange={setSelectedSchoolCate}
+                    options={schoolCates}
+                    placeholder="请选择校别"
+                />
 
-                {/* 学校选择器 */}
-                <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        学校
-                    </label>
-                    <select
-                        className="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                        value={selectedUniversity}
-                        onChange={(e) => setSelectedUniversity(e.target.value)}
-                        disabled={!selectedSchoolCate}
-                    >
-                        <option value="">请选择学校</option>
-                        {universities.map(uni => (
-                            <option key={uni} value={uni}>{uni}</option>
-                        ))}
-                    </select>
-                </div>
+                <SelectField
+                    label="学校"
+                    value={selectedUniversity}
+                    onChange={setSelectedUniversity}
+                    options={universities}
+                    placeholder="请选择学校"
+                    disabled={!selectedSchoolCate}
+                />
 
-                {/* 院系选择器 */}
-                <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        院系
-                    </label>
-                    <select
-                        className="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                        value={selectedDepartment}
-                        onChange={(e) => setSelectedDepartment(e.target.value)}
-                        disabled={!selectedUniversity}
-                    >
-                        <option value="">请选择院系</option>
-                        {departments.map(dept => (
-                            <option key={dept} value={dept}>{dept}</option>
-                        ))}
-                    </select>
-                </div>
+                <SelectField
+                    label="院系"
+                    value={selectedDepartment}
+                    onChange={setSelectedDepartment}
+                    options={departments}
+                    placeholder="请选择院系"
+                    disabled={!selectedUniversity}
+                />
 
-                {/* 导师选择器 */}
-                <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        导师
-                    </label>
-                    <select
-                        className="w-full px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                        value={selectedSupervisor}
-                        onChange={(e) => setSelectedSupervisor(e.target.value)}
-                        disabled={!selectedDepartment}
-                    >
-                        <option value="">请选择导师</option>
-                        {supervisors.map(sup => (
-                            <option key={sup} value={sup}>{sup}</option>
-                        ))}
-                    </select>
-                </div>
+                <SelectField
+                    label="导师"
+                    value={selectedSupervisor}
+                    onChange={setSelectedSupervisor}
+                    options={supervisors}
+                    placeholder="请选择导师"
+                    disabled={!selectedDepartment}
+                />
             </div>
         </div>
     );

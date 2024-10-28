@@ -36,12 +36,23 @@ export default function CommentList({ comments }: CommentListProps) {
                             来自 {comment.source_cate} 的评价
                         </div>
 
-                        <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
-                            {comment.description}
-                        </p>
+                        <div className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                            <CommentText text={comment.description} />
+                        </div>
                     </div>
                 ))}
             </div>
+        </div>
+    );
+}
+
+function CommentText({ text }: { text: string }) {
+    // 将<br><br>替换为换行符
+    const formattedText = text.replace(/<br\s*\/?>/g, '\n');
+
+    return (
+        <div className="whitespace-pre-wrap">
+            {formattedText}
         </div>
     );
 }

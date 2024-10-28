@@ -1,3 +1,4 @@
+// TODO: 返回的类型直接解析成ts类型
 export interface Comment {
     id: string;
     object: string;

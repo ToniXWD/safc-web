@@ -1,6 +1,6 @@
-export const API_BASE = 'http://127.0.0.1:11096/api';
+export const API_BASE = 'http://127.0.0.1:11096/api'; // TODO: 正式部署时需要视情况修改
 
-import { ApiQuery, Comment } from '@/types';
+import { ApiQuery } from '@/types';
 
 
 export const api = {
@@ -16,7 +16,7 @@ export const api = {
         });
 
         const response = await fetch(`${API_BASE}/query?${queryString}`);
-        let res = response.json();
+        const res = response.json();
         return res;
     }
 };

@@ -1,21 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { api } from '@/services/api';
+import { useState } from 'react';
 import SelectionForm from '@/components/SelectionForm';
 import CommentList from '@/components/CommentList';
 import { Comment } from '@/types';
 import { DownloadButton } from '@/components/DownloadButton';
 
 export default function Home() {
-    const [dbStatus, setDbStatus] = useState<string>('连接数据库中...');
     const [comments, setComments] = useState<Comment[]>([]);
-
-    useEffect(() => {
-        api.getStatus()
-            .then(status => setDbStatus(status))
-            .catch(() => setDbStatus('😢 可能后端服务器出故障了'));
-    }, []);
 
     return (
         <main className="container mx-auto px-4 py-8">
@@ -29,7 +21,7 @@ export default function Home() {
                     <a href="https://github.com/framist/SAFC-bot" className="text-blue-500 hover:underline">GitHub</a>
                 </div>
             </div>
-            
+
             <div className="w-full max-w-4xl mx-auto flex justify-center mb-6">
                 <DownloadButton />
             </div>

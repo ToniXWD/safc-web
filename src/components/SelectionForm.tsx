@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { api } from '@/services/api';
 import { Comment } from '@/types';
 import { SelectField } from './SelectField';
-import { log } from 'console';
 
 interface SelectionFormProps {
     onCommentsUpdate: (comments: Comment[]) => void;

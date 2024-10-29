@@ -5,29 +5,21 @@ import SelectionForm from '@/components/SelectionForm';
 import CommentList from '@/components/CommentList';
 import { Comment } from '@/types';
 import { DownloadButton } from '@/components/DownloadButton';
+import Footer from '@/components/Footer'
+import ApiStatus from '@/components/ApiStatus';
+import Header from '@/components/Header';
 
 export default function Home() {
     const [comments, setComments] = useState<Comment[]>([]);
 
     return (
-        <main className="container mx-auto px-4 py-8">
-            <div className="text-center mb-8">
-                <h1 className="text-4xl font-bold mb-2">🏛️</h1>
-                <h1 className="text-4xl font-bold mb-4">SAFC - Web</h1>
-                <p className="italic mb-4">元平台、分布式——不只是评价导师</p>
-                <div className="space-x-4">
-                    <a href="https://t.me/SAFC_bak_bot" className="text-blue-500 hover:underline">Telegram 机器人</a>
-                    <a href="https://t.me/SAFC_group" className="text-blue-500 hover:underline">群组社区</a>
-                    <a href="https://github.com/framist/SAFC-bot" className="text-blue-500 hover:underline">GitHub</a>
-                </div>
-            </div>
-
-            <div className="w-full max-w-4xl mx-auto flex justify-center mb-6">
-                <DownloadButton />
-            </div>
-
+        <main className="container mx-auto px-4 py-4">
+            <Header />
+            <DownloadButton />
+            <ApiStatus />
             <SelectionForm onCommentsUpdate={setComments} />
             <CommentList comments={comments} />
+            <Footer />
         </main>
     );
 }

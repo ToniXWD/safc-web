@@ -1,42 +1,54 @@
 'use client';
-
 import { useState, useEffect } from 'react';
-import { api } from '@/services/api';
-import { Comment } from '@/types';
-import { ComboboxField } from './SelectItem';
+import { api, API_BASE } from '@/services/api';
+import { ComboboxField } from './SelectItem'; // 我们会单独实现这个组件
 
-interface SelectionFormProps {
-    onCommentsUpdate: (comments: Comment[]) => void;
+interface CreateCommentFormProps {
+    school_cate: string;
+    university: string;
+    department: string;
+    supervisor: string;
+    content: string;
 }
 
-export default function SelectionForm({ onCommentsUpdate }: SelectionFormProps) {
-    // 状态管理
+async function newComment(data: CreateCommentFormProps) {
+    const response = await fetch(API_BASE + '/new/comment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    });
+    console.log(response);
+    
+    if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+    }
+
+    const result = await response.json();
+    return result;
+}
+export default function CreateCommentForm() {
+    // 可选项状态
     const [schoolCates, setSchoolCates] = useState<string[]>([]);
     const [universities, setUniversities] = useState<string[]>([]);
     const [departments, setDepartments] = useState<string[]>([]);
     const [supervisors, setSupervisors] = useState<string[]>([]);
 
-    // 选中项状态
+    // 选中值状态
     const [selectedSchoolCate, setSelectedSchoolCate] = useState<string>('');
     const [selectedUniversity, setSelectedUniversity] = useState<string>('');
     const [selectedDepartment, setSelectedDepartment] = useState<string>('');
     const [selectedSupervisor, setSelectedSupervisor] = useState<string>('');
-
+    const [content, setContent] = useState('');
 
     // 加载学校类型列表
     useEffect(() => {
-        api.query({
-        }).then(response => {
+        api.query({}).then(response => {
             setSchoolCates(response);
         });
-        // 重置后续选项
-        setSelectedUniversity('');
-        setDepartments([]);
-        setSelectedDepartment('');
-        setSupervisors([]);
-        setSelectedSupervisor('');
     }, []);
-
 
     // 当校别改变时，加载学校列表
     useEffect(() => {
@@ -46,7 +58,6 @@ export default function SelectionForm({ onCommentsUpdate }: SelectionFormProps) 
             }).then(response => {
                 setUniversities(response);
             });
-            // 重置后续选项
             setSelectedUniversity('');
             setDepartments([]);
             setSelectedDepartment('');
@@ -64,7 +75,6 @@ export default function SelectionForm({ onCommentsUpdate }: SelectionFormProps) 
             }).then(response => {
                 setDepartments(response);
             });
-            // 重置后续选项
             setSelectedDepartment('');
             setSupervisors([]);
             setSelectedSupervisor('');
@@ -78,33 +88,40 @@ export default function SelectionForm({ onCommentsUpdate }: SelectionFormProps) 
                 school_cate: selectedSchoolCate,
                 university: selectedUniversity,
                 department: selectedDepartment
-
             }).then(response => {
                 setSupervisors(response);
             });
-            // 重置导师选项
             setSelectedSupervisor('');
         }
     }, [selectedDepartment, selectedUniversity, selectedSchoolCate]);
 
-    // 当导师选择改变时，更新评论列表
-    useEffect(() => {
-        if (selectedSupervisor) {
-            api.query({
-                school_cate: selectedSchoolCate,
-                university: selectedUniversity,
-                department: selectedDepartment,
-                supervisor: selectedSupervisor
-            }).then(response => {
-                console.log(response);
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-                onCommentsUpdate(response);
-            });
+        const submitData = {
+            school_cate: selectedSchoolCate,
+            university: selectedUniversity,
+            department: selectedDepartment,
+            supervisor: selectedSupervisor,
+            content
+        };
+
+        try {
+            await newComment(submitData);
+            // 提交成功后清空表单
+            setSelectedSchoolCate('');
+            setSelectedUniversity('');
+            setSelectedDepartment('');
+            setSelectedSupervisor('');
+            setContent('');
+            alert('评论提交成功！');  // 或使用其他提示方式
+        } catch (error) {
+            alert('提交失败：' + (error instanceof Error ? error : '未知错误'));
         }
-    }, [selectedSupervisor, onCommentsUpdate]);
+    };
 
     return (
-        <div className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+        <form onSubmit={handleSubmit} className="w-full max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <ComboboxField
                     label="校别"
@@ -141,6 +158,28 @@ export default function SelectionForm({ onCommentsUpdate }: SelectionFormProps) 
                     disabled={!selectedDepartment}
                 />
             </div>
-        </div>
+
+            <div className="mt-6">
+                <label className="block text-sm font-medium text-gray-300 mb-1">
+                    评论内容
+                </label>
+                <textarea
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    className="w-full h-32 bg-gray-700 text-white rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="请输入评论内容"
+                    required
+                />
+            </div>
+
+            <div className="flex justify-end mt-6">
+                <button
+                    type="submit"
+                    className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                    提交评论
+                </button>
+            </div>
+        </form>
     );
-}
+} 

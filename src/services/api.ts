@@ -1,4 +1,5 @@
-export const API_BASE = 'http://127.0.0.1:11096/api'; // TODO: 正式部署时需要视情况修改
+export const API_BASE = 'https://safc.framist.top/api'; // TODO: 正式部署时需要视情况修改
+// export const API_BASE = 'http://127.0.0.1:11096/api';
 
 import { ApiQuery } from '@/types';
 

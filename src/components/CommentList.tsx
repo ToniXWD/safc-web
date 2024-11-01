@@ -5,6 +5,18 @@ interface CommentListProps {
 }
 
 export default function CommentList({ comments }: CommentListProps) {
+    console.log(comments);
+
+    if (!Array.isArray(comments) || comments.length === 0) {
+        return <div className="w-full max-w-4xl mx-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+                <div className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    教师信息未找到
+                </div>
+            </div>
+        </div>;
+    }
+
     return (
         <div className="w-full max-w-4xl mx-auto">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
@@ -12,7 +24,6 @@ export default function CommentList({ comments }: CommentListProps) {
                     检索到 {comments.length} 条评论
                 </div>
             </div>
-
             <div className="space-y-6">
                 {comments.map((comment, index) => (
                     <div key={comment.id}

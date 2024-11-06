@@ -7,6 +7,9 @@ export const metadata: Metadata = {
     icons: {
         icon: '/school.png', // /public path
     },
+    other: {
+        'google-signin-client_id': '280514968506-btnfhcbkok4mq6gkua128h3cd1n8d2nn.apps.googleusercontent.com',
+    },
 }
 
 export default function RootLayout({

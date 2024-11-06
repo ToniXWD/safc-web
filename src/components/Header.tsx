@@ -1,6 +1,14 @@
+import { GoogleSignIn } from "./GoogleSignIn";
+import Script from 'next/script'
+
 export default function Header() {
     return (
         <div className="text-center mb-1 p-6">
+            <Script
+                src="https://apis.google.com/js/platform.js"
+                strategy="lazyOnload"
+            />
+            <GoogleSignIn />
             <h1 className="text-5xl mb-3 transform hover:scale-110 transition-transform duration-300 cursor-default">
                 🏛️
             </h1>

@@ -15,7 +15,7 @@ export default function ApiStatus() {
                 setApiData(data);
                 setIsError(false);
             } catch (error) {
-                console.error('API 请求失败:', error);
+                console.error('API 请求失败：', error);
                 setApiData('API 连接失败');
                 setIsError(true);
             }
@@ -26,7 +26,7 @@ export default function ApiStatus() {
 
     return (
         <div className="w-full max-w-4xl mx-auto mb-1 p-1">
-            {/* 如果 isError 是 false ,条件渲染另一个div*/}
+            {/* 如果 isError 是 false ,条件渲染另一个 div*/}
             {isError ? (
                 <div className="text-center text-red-500">
                     <p className="font-mono">

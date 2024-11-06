@@ -5,8 +5,8 @@ export default function Footer() {
     <div className="flex flex-col items-center justify-center text-center">
       <br></br>
       <i>
-        web 端现只提供基本的查看功能，数据约滞后一日<br />
-        增加导师、增加评价、查看与增加嵌套评价等更多功能请使用
+        web 端现只提供基本的查看、新增评论、下载数据功能<br />
+        删除管理、增加嵌套评价等更多功能请使用
         <Link
           href="https://t.me/SAFC_bak_bot"
           className="px-2 py-0.5 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition-colors font-medium"
